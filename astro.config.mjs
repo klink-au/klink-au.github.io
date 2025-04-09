@@ -19,11 +19,15 @@ export default defineConfig({
             // Change sitemap URLs to use custom host supplied to GitHub.
             serialize(item) {
                 const url = new URL(item.url);
-                if (url.host === githubHost) {
-                    url.host = canonicalHost;
+                if (url.pathname === '/klink-id-au-redirect/') {
+                    return undefined; // Exclude the klink.id.au redirect page from the sitemap
+                } else {
+                    if (url.host === githubHost) {
+                        url.host = canonicalHost;
+                    }
+                    item.url = url.href;
+                    return item;
                 }
-                item.url = url.href;
-                return item;
             }
         })
     ],
